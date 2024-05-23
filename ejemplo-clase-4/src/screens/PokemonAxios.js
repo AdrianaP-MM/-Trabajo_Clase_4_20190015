@@ -10,6 +10,7 @@ export default function PokemonAxios() {
   const [pokemon, setPokemon] = useState([]);
   const [nPokemon, setNPokemon]=useState(0); //La api comenzará mostrando solamente 25 pokemones
   const [loading, setLoading] = useState(false);
+  const [namePokemon, setNamePokemon]=useState(); 
 
   useEffect(() => {
     getPokemon(nPokemon);
@@ -21,16 +22,16 @@ export default function PokemonAxios() {
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${nPokemon}`);
       const dataPokemon = response.data;
       const arrayResult = dataPokemon.results;
+      let dataPokemon2;
 
       for (const url of arrayResult) {
         let arrayResult2 = url.url;
 
         const response2 = await axios.get(arrayResult2);
-        const dataPokemon2 = response2.data;
-        const arrayResultResult2 = dataPokemon2.abilities;
+        dataPokemon2 = response2.data;
       }
 
-      setPokemon(...dataPokemon.results, ...arrayResultResult2);
+      setPokemon(...arrayResult, ...dataPokemon2.abilities);
       
       setLoading(false);
     } catch (error) {
@@ -49,8 +50,7 @@ export default function PokemonAxios() {
           source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url.split('/')[6]}.png` }}
         />
         <Text style={styles.title}>{item.name}</Text>
-      
-        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.title}>{item.abilities}</Text>
       </View>
     );
   };
@@ -63,6 +63,12 @@ export default function PokemonAxios() {
         placeHolderInput='20'
         valor={nPokemon}
         setValor={setNPokemon}
+      />
+      <FormularioPokemon
+        labelInput='Ingrese el nombre del pokemon a buscar: '
+        placeHolderInput='Charmander'
+        valor={namePokemon}
+        setValor={setNamePokemon}
       />
       {loading ? (
         <ActivityIndicator style={styles.loading} size="large" color="#0000ff" />
