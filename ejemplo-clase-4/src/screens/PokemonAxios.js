@@ -20,13 +20,25 @@ export default function PokemonAxios() {
       setLoading(true);
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${nPokemon}`);
       const dataPokemon = response.data;
-      setPokemon(dataPokemon.results);
+      const arrayResult = dataPokemon.results;
+
+      for (const url of arrayResult) {
+        let arrayResult2 = url.url;
+
+        const response2 = await axios.get(arrayResult2);
+        const dataPokemon2 = response2.data;
+        const arrayResultResult2 = dataPokemon2.abilities;
+      }
+
+      setPokemon(...dataPokemon.results, ...arrayResultResult2);
+      
       setLoading(false);
     } catch (error) {
       console.log("Hubo un error listando los pokemones", error);
       setLoading(false);
     }
   }
+
 
   const renderItem = ({ item }) => {
     return (
@@ -36,6 +48,8 @@ export default function PokemonAxios() {
           style={styles.image}
           source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url.split('/')[6]}.png` }}
         />
+        <Text style={styles.title}>{item.name}</Text>
+      
         <Text style={styles.title}>{item.name}</Text>
       </View>
     );

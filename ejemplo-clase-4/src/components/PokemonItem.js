@@ -11,6 +11,7 @@ const PokemonItem = React.memo(({ item }) => (
       source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.id}.png` }}
     />
     <Text style={styles.title}>{item.name}</Text>
+    <Text style={styles.title}>{item.name}</Text>
   </View>
 ));
 

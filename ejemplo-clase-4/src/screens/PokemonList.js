@@ -49,6 +49,7 @@ export default function PokemonList() {
           keyExtractor={(item) => item.name}
           numColumns={numColumns}
           contentContainerStyle={styles.list}
+          
         />
       )}
     </View>
